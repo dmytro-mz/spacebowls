@@ -50,27 +50,66 @@ The footer form posts to [Web3Forms](https://web3forms.com), which emails the me
 
 The key is public by design (it can only send to that address). Free plan: 250 submissions/month.
 
-## DNS (when switching spacebowls.at to the new site)
+## Domain
 
-Today DNS, web hosting and mail are all at World4You. Mail (`eat@`, `tom@`) stays at World4You — only the web part moves.
+The old site and `spacebowls.at` are managed by the former developer, nobody has the login.
+First try to get the domain back (keeps Google ranking, printed menus, links on Google Maps/Lieferando/Wolt
+and the mailboxes `eat@` / `tom@`). If that fails, register a new domain.
 
-DNS has to move to Cloudflare (free): custom domains on Workers only work for domains whose DNS is on Cloudflare.
+In both cases DNS has to be on Cloudflare (free): custom domains on Workers only work for domains whose DNS is on Cloudflare.
 
-1. Cloudflare dashboard → **Add a domain** → `spacebowls.at` → Free plan. Cloudflare imports existing records.
-2. Compare with the World4You DNS panel and make sure these exist in Cloudflare (mail records **DNS only**, grey cloud):
+### Option A: recover spacebowls.at
 
-   | Type | Name | Value |
-   |---|---|---|
-   | MX | `spacebowls.at` | `mail.spacebowls.at` (priority 10) |
-   | A | `mail` | `81.19.149.36` |
-   | TXT | `spacebowls.at` | `v=spf1 mx include:spf.w4ymail.at -all` |
-   | TXT | `_dmarc` | `v=DMARC1;p=none;` |
+The legal owner of an `.at` domain is the **holder** (Domaininhaber) registered at nic.at, not the person who built the site.
 
-   Plus anything else shown in World4You (DKIM, autoconfig, …).
-3. World4You customer area → domain → change nameservers to the two Cloudflare nameservers. Propagation: 1–24 h.
-4. Workers & Pages → `spacebowls` → **Settings → Domains & Routes → Add → Custom domain** → add `www.spacebowls.at` and `spacebowls.at`. Cloudflare creates the DNS records and SSL certificates.
-5. Cloudflare → **Rules → Redirect Rules** → redirect `spacebowls.at/*` to `https://www.spacebowls.at/${1}` (301), the canonical address stays `www`.
-6. Check the site and send a test mail to/from `eat@spacebowls.at`. Then the World4You web hosting can be downgraded to a domain + mail package.
+1. Find the holder: https://www.nic.at/de/whois → `spacebowls.at`. Personal data is hidden; if nothing useful is shown,
+   ask nic.at (https://www.nic.at/de/kontakt) who the holder is, as spacebowls GmbH.
+2. If the holder is **spacebowls GmbH**: the domain is with World4You (`ns1.world4you.at`). Contact World4You support:
+   the company is the domain holder, the account admin left, and you want access to the customer account or a
+   provider change (Providerwechsel) to your own new account. Send a current Firmenbuchauszug and an ID of the managing director.
+3. If the holder is the **developer personally**: nic.at cannot hand it over without them. Options are a written request
+   to the developer or a claim based on company name rights (§ 43 ABGB) — talk to a lawyer.
+4. Meanwhile watch the domain: if nobody pays the renewal it expires and is released after a quarantine period.
+5. Once you control the domain, move DNS to Cloudflare without breaking mail:
+
+   1. Cloudflare dashboard → **Add a domain** → `spacebowls.at` → Free plan. Cloudflare imports existing records.
+   2. Make sure these mail records exist in Cloudflare (**DNS only**, grey cloud), plus anything else in the World4You DNS panel:
+
+      | Type | Name | Value |
+      |---|---|---|
+      | MX | `spacebowls.at` | `mail.spacebowls.at` (priority 10) |
+      | A | `mail` | `81.19.149.36` |
+      | TXT | `spacebowls.at` | `v=spf1 mx include:spf.w4ymail.at -all` |
+      | TXT | `_dmarc` | `v=DMARC1;p=none;` |
+
+   3. World4You → domain → change nameservers to the two Cloudflare nameservers. Propagation: 1–24 h.
+   4. Connect the domain to the site (see "Connect a domain" below).
+   5. Send a test mail to/from `eat@spacebowls.at`. Then the World4You web hosting (Joomla) can be cancelled; keep domain + mail.
+
+### Option B: new domain (e.g. space-bowls.at)
+
+`space-bowls.at` looked unregistered on 2026-10-06; check availability at the registrar.
+
+1. Register it at an Austrian registrar (World4You, easyname, …), ~€10–20/year. Cloudflare itself does not sell `.at`.
+2. Cloudflare dashboard → **Add a domain** → `space-bowls.at` → Free plan → set the two Cloudflare nameservers at the registrar.
+3. Connect the domain to the site (see below).
+4. Replace the old domain in the canonical links (one line per page):
+
+   ```bash
+   grep -rl "https://www.spacebowls.at/" public | xargs sed -i '' 's#https://www.spacebowls.at/#https://www.space-bowls.at/#g'
+   ```
+
+5. Email: `eat@spacebowls.at` keeps working only as long as the old domain does. For a new address, either use
+   Cloudflare **Email Routing** (free, forwards e.g. `eat@space-bowls.at` to an existing inbox, receive only) or a mailbox
+   package at the registrar (~€1–3/month). Then replace `eat@spacebowls.at` in `public/*.html` (header mail icon),
+   create a new Web3Forms key for the new address (see "Contact form"), and update the Impressum/Datenschutz addresses.
+6. Update the website link on Google Maps (Google Business Profile), Instagram, Facebook, Lieferando, Wolt and printed menus.
+
+### Connect a domain
+
+1. Workers & Pages → `spacebowls` → **Settings → Domains & Routes → Add → Custom domain** → add `www.<domain>` and `<domain>`.
+   Cloudflare creates the DNS records and SSL certificates.
+2. Cloudflare → `<domain>` → **Rules → Redirect Rules** → redirect `<domain>/*` to `https://www.<domain>/${1}` (301), so the address is always `www`.
 
 Before going live, update the **Datenschutzerklärung** (`public/datenschutzerklaerung.html`): hosting is Cloudflare instead of World4You, and the contact form is processed by Web3Forms.
 
@@ -87,5 +126,6 @@ Before going live, update the **Datenschutzerklärung** (`public/datenschutzerkl
 | Cloudflare Workers Free (static assets: hosting, CDN, SSL, unlimited requests) | €0 |
 | Cloudflare DNS | €0 |
 | Web3Forms (contact form, ≤250 messages/month) | €0 |
-| Domain `spacebowls.at` + mailboxes at World4You (existing contract) | unchanged, ~€2–5 |
-| **Website total** | **€0** |
+| Domain: recovered `spacebowls.at` (World4You) or new `.at` domain | ~€1–2 |
+| Email: Cloudflare Email Routing (forwarding) / mailbox package | €0 / ~€1–3 |
+| **Total** | **~€1–5** |
