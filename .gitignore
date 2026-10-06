@@ -1,3 +1,4 @@
 node_modules/
 .mirror/
+.wrangler/
 .DS_Store

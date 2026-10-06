@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "serve . -l 3000",
+    "start": "serve public -l 3000",
     "images": "node scripts/images.mjs"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
 // Usage: npm run images -- path/to/photo.jpg [more.jpg ...]
-// Writes images/slideshow/<name>-<width>.webp for every width up to the original width.
+// Writes public/images/slideshow/<name>-<width>.webp for every width up to the original width.
 import sharp from "sharp";
 import path from "node:path";
 
 const WIDTHS = [768, 1280, 1920, 2560];
-const OUT_DIR = "images/slideshow";
+const OUT_DIR = "public/images/slideshow";
 
 for (const file of process.argv.slice(2)) {
   const name = path.parse(file).name.replace(/\s+/g, "-");
