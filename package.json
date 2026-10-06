@@ -1,0 +1,13 @@
+{
+  "name": "spacebowls",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "serve . -l 3000",
+    "images": "node scripts/images.mjs"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4",
+    "sharp": "^0.33.5"
+  }
+}

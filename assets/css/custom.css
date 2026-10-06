@@ -1,0 +1,46 @@
+/* .speisenicons path {
+    fill: black!important;
+}
+
+.speisenicons .uk-svg:not(.uk-preserve) [fill*='#']:not(.uk-preserve) {
+    fill: #fff!important
+}
+
+.speisenicons a:hover path {
+    fill: #fff!important;
+}
+
+.speisenicons a:hover .uk-svg:not(.uk-preserve) [fill*='#']:not(.uk-preserve) {
+    fill: #000!important
+} */
+
+.speisenicons a {
+    transition: all 400ms ease;
+    
+}
+
+.speisenicons a:hover {
+    opacity: 0.4;
+    transform: scale(1.1);
+}
+
+.speisenicons img {
+    max-width: 75px}
+
+.speisenicons .el-item {
+    text-align: center;
+}
+
+.uk-list .el-meta {
+    font-weight: 700;
+    font-size: 22px;
+    color: #000!important
+}
+
+.takeaway .uk-svg:not(.uk-preserve) [fill*='#']:not(.uk-preserve) {
+    fill: #fff
+}
+
+.takeawaydelivery .uk-container{
+    /* max-width: 800px */
+}
