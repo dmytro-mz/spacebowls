@@ -3,7 +3,7 @@
 // The key is public by design: it can only send mail to that one address.
 const WEB3FORMS_ACCESS_KEY = "REPLACE_WITH_WEB3FORMS_ACCESS_KEY";
 
-const SUCCESS_MESSAGE = "Vielen Dank für deine Nachricht!";
+const SUCCESS_MESSAGE = "Vielen Dank!";
 const ERROR_MESSAGE = "Submission failed, please try again or contact us about this issue.";
 
 document.addEventListener("submit", async (event) => {
