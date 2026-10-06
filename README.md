@@ -62,15 +62,20 @@ In both cases DNS has to be on Cloudflare (free): custom domains on Workers only
 
 The legal owner of an `.at` domain is the **holder** (Domaininhaber) registered at nic.at, not the person who built the site.
 
-1. Find the holder: https://www.nic.at/de/whois → `spacebowls.at`. Personal data is hidden; if nothing useful is shown,
-   ask nic.at (https://www.nic.at/de/kontakt) who the holder is, as spacebowls GmbH.
-2. If the holder is **spacebowls GmbH**: the domain is with World4You (`ns1.world4you.at`). Contact World4You support:
-   the company is the domain holder, the account admin left, and you want access to the customer account or a
-   provider change (Providerwechsel) to your own new account. Send a current Firmenbuchauszug and an ID of the managing director.
-3. If the holder is the **developer personally**: nic.at cannot hand it over without them. Options are a written request
+Whois (checked 2026-10-06): registrar World4You, holder `<data not disclosed>`, registered 2022-09-17
+(renews yearly around 17 September). The holder can only be found out through World4You or nic.at.
+
+1. Collect evidence: World4You invoices addressed to spacebowls GmbH, the developer's invoices for domain/hosting,
+   the order confirmation from September 2022.
+2. Contact World4You support (https://www.world4you.com): spacebowls GmbH runs the business at spacebowls.at,
+   the person managing the account left, and you want the domain and hosting moved to a customer account of the company
+   (or a provider change to a new registrar). Attach a current Firmenbuchauszug, an ID of the managing director and the evidence.
+3. If World4You cannot help: ask nic.at (https://www.nic.at/de/kontakt) to disclose the holder, stating your legitimate
+   interest as the business behind the name.
+4. If the holder is the **developer personally**: nic.at cannot hand it over without them. Options are a written request
    to the developer or a claim based on company name rights (§ 43 ABGB) — talk to a lawyer.
-4. Meanwhile watch the domain: if nobody pays the renewal it expires and is released after a quarantine period.
-5. Once you control the domain, move DNS to Cloudflare without breaking mail:
+5. Meanwhile watch the domain: if nobody pays the renewal it expires and is released after a quarantine period.
+6. Once you control the domain, move DNS to Cloudflare without breaking mail:
 
    1. Cloudflare dashboard → **Add a domain** → `spacebowls.at` → Free plan. Cloudflare imports existing records.
    2. Make sure these mail records exist in Cloudflare (**DNS only**, grey cloud), plus anything else in the World4You DNS panel:
